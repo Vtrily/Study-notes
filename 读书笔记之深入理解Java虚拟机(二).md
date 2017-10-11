@@ -3,7 +3,6 @@ tags: [JVM,java]
 date: 2017-10-10
 
 ---
-
 ### 垃圾收集算法和垃圾收集器 ###  
 
 #### 标记-清除算法 ####  
@@ -40,9 +39,42 @@ Serial收集器对于运行在Client模式下的虚拟机来说是一个很好�
 
 #### ParNew收集器 ####  
 
-Serial收集器的多线程版本，Server模式下的虚拟机首选的新生代收集器  
+Serial收集器的多线程版本，Server模式下的虚拟机首选的新生代收集器,其中一个重要原因就是JDK1.5时只有它能和CMS收集器配合工作  
 
 #### Parallel Scavenge收集器 ####  
 
 Parallel Scavenge收集器是一个新生代收集器，它也是使用复制算法的收集器，又是并发的多线程收集器。  
-它的目的是达到一个可控制的吞吐量。
+它的目的是达到一个可控制的吞吐量。  
+Parallel Scavenge收集器提供了两个参数用于精确控制吞吐量，分别是控制最大垃圾收集停顿时间的-XX:MaxGCPauseMillis参数以及直接设置吞吐量大小的-XX:GCTimeRatio参数  
+Parallel Scavenge还有一个-XX:+UseAdaptiveSizePolicy参数，这个参数打开后不需要手动设置新生代大小(-Xmn)  
+
+#### Serial Old收集器 ####  
+
+Serial Old 是Serial收集器的老年代版本，同样是一个单线程收集器，使用标记-整理算法  
+除了在Client模式下应用，在Server模式下还有两大用途：一是在JDK1.5之前与Parallel Scavenge收集器搭配使用，二是作为CMS的预备方案  
+
+#### Parallel Old收集器 ####  
+
+Parallel Scavenge收集器的老年代版本  
+吞吐量优先的需求中可以使用Parallel Scavenge收集器和Parallel Old收集器  
+
+#### CMS收集器 ####  
+
+它是一种以获取最短回收停顿时间为目标的收集器  
+基于标记清除算法实现的，它的运作过程分为四个步骤：  
+1. 初始标记(标记GC Roots能直接关联到的对象)  
+2. 并发标记(进行GC Roots)  
+3. 重新标记(修正标记)  
+4. 并发清除(清除)  
+
+CMS优点：并发收集，低停顿  
+CMS缺点：对CPU资源敏感，无法收集浮动垃圾，采用标记清除算法存在空间碎片  
+
+#### G1收集器 ####    
+
+G1是一款面对服务端应用的垃圾收集器  
+G1的特点：  
+1. 并行与并发  
+2. 分代收集  
+3. 空间整合  
+4. 可预测的停顿  
