@@ -52,6 +52,11 @@ volatile关键字可以禁止重排序，或者使用synchronized和lock对代�
 4.volatile的运用  
 状态标记和单例模式的实现，双重检查锁定
 
+5.synchronized和volatile的区别  
+1).关键字volatile是线程同步的轻量级实现，所以volatile性能肯定比synchronized要好，并且volatile只能修饰于变量，而synchronized可以修饰方法，以及代码块。随着JDK新版本的发布，synchronized关键字在执行效率上得到很大提升，在开发中使用synchronized关键字的比率还是很大的  
+2).多线程访问volatile不会发生阻塞，而synchronized会出现阻塞  
+3).volatile能保证数据的可见性，但不能保证原子性；而synchronized可以保证原子性，也可以间接保证可见性，因为它会将私有内存和共有内存中的数据做同步。  
+4).关键字volatile解决的是变量在多个线程之间的可见性，而synchronized关键字解决的是多个线程之间访问资源的同步性  
 ##### 多线程 #####  
 1.java中有几种方法可以实现一个线程  
 两种方式：继承Thread类和实现Runable接口  

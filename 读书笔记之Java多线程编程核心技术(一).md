@@ -43,6 +43,7 @@ CPU ** 尽量 ** 将执行资源让给优先级比较高的线程
 守护线程最典型的应用就是GC(垃圾回收器)  
 
 #### 线程安全与非线程安全 ####  
+
 “非线程安全”其实会在躲在线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是“脏读”，也就是取到的数据其实是被更改过的。而“线程安全”就是以获得的实例变量的值是经过同步处理的，不会出现脏读的现象。  
 
 “非线程安全”问题存在于“实例变量”中，如果是方法内部的私有变量，则不存在“非线程安全”，方法中的变量永远都是线程安全的  
@@ -65,3 +66,18 @@ synchronized锁重入
 不在synchronized块中就是异步执行，在synchronized块中就是同步执行  
 
 和synchronized方法一样，synchronized(this)代码块也是锁定当前对象的  
+
+当一个线程访问object的一个synchronized同步代码块时，另一个线程仍然可以访问该object对象中的非synchronized(this)同步代码块  
+
+锁非this对象的优点：  
+如果一个类中有很多个synchronized方法，这时虽然能是西安同步，但会受到阻塞，所以影响效率；但如果使用同步代码块锁非this对象，则synchronized(非this)代码块中的程序与同步方法是异步的，不与其他锁this同步方法挣抢this锁，则可以大大提高运行效率  
+
+synchronized关键字加到static静态方法上是给Class类上锁，而synchronized关键字加到非static静态方法上是给对象上锁  
+
+使用JDK自带工具检测是否存在死锁jstack -l 进程号，使用jps命令查看进程号  
+
+synchronized和volatile的区别  
+1.关键字volatile是线程同步的轻量级实现，所以volatile性能肯定比synchronized要好，并且volatile只能修饰于变量，而synchronized可以修饰方法，以及代码块。随着JDK新版本的发布，synchronized关键字在执行效率上得到很大提升，在开发中使用synchronized关键字的比率还是很大的  
+2.多线程访问volatile不会发生阻塞，而synchronized会出现阻塞  
+3.volatile能保证数据的可见性，但不能保证原子性；而synchronized可以保证原子性，也可以间接保证可见性，因为它会将私有内存和共有内存中的数据做同步。  
+4.关键字volatile解决的是变量在多个线程之间的可见性，而synchronized关键字解决的是多个线程之间访问资源的同步性  
