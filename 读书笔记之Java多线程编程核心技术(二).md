@@ -20,4 +20,19 @@ join()方法的作用是等待线程对象的销毁
 
 ##### ThreadLocal #####  
 
-ThreadLocal使得每一个线程都有自己的共享变量  
+ThreadLocal类用来提供线程内部的局部变量。这些变量在多线程环境下访问(通过get或set方法访问)时能保证各个线程里的变量相对独立于其他线程内的变量，ThreadLocal实例通常来说都是private static类型  
+ThreadLocal类中有ThreadLocalMap静态类，ThreadLocalMap中有Entry静态类，Entry静态类继承了WeakReference  
+
+##### InheritableThreadLocal的使用 #####  
+
+使用类 InheritableThreadLocal可以在子线程中取得父线程继承下来的值  
+
+#### Lock的使用 ####  
+
+##### ReentrantLock类 #####  
+
+可重入锁（待学习）
+
+##### 公平锁与非公平锁 #####  
+
+公平锁与非公平锁：锁Lock分为“公平锁”和“非公平锁”，公平锁表示线程获取锁的顺序是按照线程加锁大的顺序来分配的，即先来先得的FIFO先进先出顺序。而非公平锁就是一种获取所得抢占机制，是随机获取锁的，和公平锁不一样的就是先来的不一定先得到锁，这个方式可能造成某些线程一直拿不到锁，结果也就是不公平的了。  
