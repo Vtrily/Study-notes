@@ -57,7 +57,9 @@ volatile关键字可以禁止重排序，或者使用synchronized和lock对代�
 2).多线程访问volatile不会发生阻塞，而synchronized会出现阻塞  
 3).volatile能保证数据的可见性，但不能保证原子性；而synchronized可以保证原子性，也可以间接保证可见性，因为它会将私有内存和共有内存中的数据做同步。  
 4).关键字volatile解决的是变量在多个线程之间的可见性，而synchronized关键字解决的是多个线程之间访问资源的同步性  
-##### 多线程 #####  
+
+### 多线程 ###  
+
 1.java中有几种方法可以实现一个线程  
 两种方式：继承Thread类和实现Runable接口  
 
@@ -76,6 +78,19 @@ sleep为休眠状态，wait等待状态，区别在于是否释放锁，sleep不
 共享内存的方式实现  
 
 6.什么是可重入锁（ReentrantLock）?  
+当一个线程得到一个对象锁后，再次请求此对象锁时是可以再次得到该对象的锁，这就是可重入锁    
+
+### Spring ###  
+
+1.Spring MVC工作原理  
+- 客户端请求提交到DispatcherServlet  
+- 由DispatcherServlet控制器查询一个或多个HandlerMapping,找到处理请求的Controller  
+- DispatcherServlet将请求提交到Controller  
+- Controller调用业务逻辑处理后，返回ModelAndView  
+- DispatcherServlet查询一个或多个ViewResoler视图解析器，找到ModelAndView指定的视图  
+- 视图负责将结果显示到客户端  
+
+
 
 ### 设计模式 ###  
 
